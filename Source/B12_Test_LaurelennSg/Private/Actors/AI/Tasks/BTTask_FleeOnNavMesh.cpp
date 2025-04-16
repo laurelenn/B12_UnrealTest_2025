@@ -57,23 +57,4 @@ EBTNodeResult::Type UBTTask_FleeOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 		}
 	}
 	return EBTNodeResult::Failed;
-
-	//UNavigationSystemV1* NavSys = UNavigationSystemV1::GetCurrent(GetWorld());
-	//FNavLocation NavLocation;
-
-	//if (!)) 
-	//{
-	//	return EBTNodeResult::Failed;
-	//}
-
-	//// Set speed
-	//const UPawnMovementComponent* MoveComp = AIPrey->GetCharacterMovement();
-	//if (MoveComp && AIPrey->DataAsset)
-	//{
-	//	MoveComp->MaxSpeed = AIPrey->DataAsset->SpeedFlight;
-	//}
-
-	//AIController->MoveToLocation(NavLocation.Location, -1.f, true, true, false, false);
-
-	//return EBTNodeResult::Succeeded;
 }

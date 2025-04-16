@@ -23,6 +23,7 @@ void UBTService_CheckPlayerDistance::TickNode(UBehaviorTreeComponent& OwnerComp,
 
 	if (!Player || !AIPrey || !Controller || !Blackboard || !AIPrey->DataAsset)
 	{
+
 		return;
 	}
 

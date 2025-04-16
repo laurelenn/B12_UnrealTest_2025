@@ -79,7 +79,10 @@ void AAIPreyController::OnPossess(APawn* InPawn)
 
 void AAIPreyController::SetAIPreyState(EAIPreyState NewState)
 {
-	BlackboardComp->SetValueAsEnum(Key_AIPreyState, static_cast<uint8>(NewState));
+	if (BlackboardComp)
+	{
+		BlackboardComp->SetValueAsEnum(Key_AIPreyState, static_cast<uint8>(NewState));
+	}
 }
 
 void AAIPreyController::SetPlayerActor(AActor* PlayerActor)

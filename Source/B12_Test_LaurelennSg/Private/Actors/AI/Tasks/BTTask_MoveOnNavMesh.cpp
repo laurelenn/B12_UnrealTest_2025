@@ -18,34 +18,56 @@ UBTTask_MoveOnNavMesh::UBTTask_MoveOnNavMesh()
 EBTNodeResult::Type UBTTask_MoveOnNavMesh::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	AAIController* AIController = OwnerComp.GetAIOwner();
-	ACharacter* AICharacter = AIController->GetCharacter();
-	UWorld* World = AICharacter->GetWorld();
+	AAIPreyBase* AIPrey = Cast<AAIPreyBase>(AIController->GetCharacter());
+	UWorld* World = AIPrey->GetWorld();
 	const UNavigationSystemV1* NavSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(World);
-	AAIPreyBase* AIPrey = Cast<AAIPreyBase>(AICharacter);
 
-	if (!AIController || !AICharacter || !World || !NavSystem || !AIPrey)
+
+	if (!AIController || !World || !NavSystem || !AIPrey)
 	{
+		UE_LOG(LogTemp, Error, TEXT("UBTTask_MoveOnNavMesh::ExecuteTask : Something is invalid !"));
+
 		return EBTNodeResult::Failed;
 	}
+
+	
+	
+
 
 	if (AIPrey->DataAsset)
 	{
 		FNavLocation RandomLocation;
-		bool bFound = NavSystem->GetRandomReachablePointInRadius(AICharacter->GetActorLocation(), WalkDistanceSelection, RandomLocation);
+		bool bFound = NavSystem->GetRandomReachablePointInRadius(AIPrey->GetActorLocation(), WalkDistanceSelection, RandomLocation);
+		DrawDebugSphere(GetWorld(), AIPrey->GetActorLocation(), 50.f, 12, FColor::Red, false, 2.f);
+		DrawDebugSphere(GetWorld(), RandomLocation.Location, 50.f, 12, FColor::Green, false, 2.f);
 		if (bFound) 
 		{
 			// Set speed from DataAsset
 			AIPrey->GetCharacterMovement()->MaxWalkSpeed = AIPrey->DataAsset->SpeedWalk;
 	
 			// Adjust height to make sure mesh touches the ground
-			const FVector MeshOffset = AICharacter->GetMesh()->Bounds.BoxExtent;
+			const FVector MeshOffset = AIPrey->GetMesh()->Bounds.BoxExtent;
 			FVector TargetLocation = RandomLocation.Location;
 			TargetLocation.Z += MeshOffset.Z;
 
 			AIController->MoveToLocation(TargetLocation);
 			return EBTNodeResult::Succeeded;
 		}
-	}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("UBTTask_MoveOnNavMesh::ExecuteTask : No reachable point found !"));
+			const ANavigationData* NavData = UNavigationSystemV1::GetCurrent(GetWorld())->GetNavDataForProps(AIPrey->GetNavAgentPropertiesRef());
 
+			if (NavData)
+			{
+				UE_LOG(LogTemp, Log, TEXT("UBTTask_MoveOnNavMesh::ExecuteTask : Using NavData: %s"), *NavData->GetName());
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("UBTTask_MoveOnNavMesh::ExecuteTask : No matching NavData found for this agent."));
+			}
+			return EBTNodeResult::Failed;
+		}
+	}
 	return EBTNodeResult::Failed;
 }

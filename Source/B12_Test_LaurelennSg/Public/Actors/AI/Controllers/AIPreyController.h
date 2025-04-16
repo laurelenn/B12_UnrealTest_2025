@@ -9,7 +9,7 @@
 /**
  * 
  */
- class HoldableComponent;
+ class UHoldableComponent;
 
 UCLASS()
 class B12_TEST_LAURELENNSG_API AAIPreyController : public AAIController
@@ -45,6 +45,7 @@ protected:
 	UFUNCTION()
 	void HandleAIPawnCaptured(AAIPreyBase* AIPrey);
 
+	UFUNCTION()
 	void HandleAIPawnHeld(UHoldableComponent* HeldComponent, bool bIsHeld);
 
 public:
