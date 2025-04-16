@@ -13,6 +13,7 @@
 UBTTask_MoveOnNavMesh::UBTTask_MoveOnNavMesh()
 {
 	NodeName = "Move Around NavMesh";
+	bNotifyTick = true;
 }
 
 EBTNodeResult::Type UBTTask_MoveOnNavMesh::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
@@ -22,7 +23,6 @@ EBTNodeResult::Type UBTTask_MoveOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 	UWorld* World = AIPrey->GetWorld();
 	const UNavigationSystemV1* NavSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(World);
 
-
 	if (!AIController || !World || !NavSystem || !AIPrey)
 	{
 		UE_LOG(LogTemp, Error, TEXT("UBTTask_MoveOnNavMesh::ExecuteTask : Something is invalid !"));
@@ -30,16 +30,11 @@ EBTNodeResult::Type UBTTask_MoveOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 		return EBTNodeResult::Failed;
 	}
 
-	
-	
-
-
 	if (AIPrey->DataAsset)
 	{
 		FNavLocation RandomLocation;
 		bool bFound = NavSystem->GetRandomReachablePointInRadius(AIPrey->GetActorLocation(), WalkDistanceSelection, RandomLocation);
-		DrawDebugSphere(GetWorld(), AIPrey->GetActorLocation(), 50.f, 12, FColor::Red, false, 2.f);
-		DrawDebugSphere(GetWorld(), RandomLocation.Location, 50.f, 12, FColor::Green, false, 2.f);
+		
 		if (bFound) 
 		{
 			// Set speed from DataAsset
@@ -47,11 +42,11 @@ EBTNodeResult::Type UBTTask_MoveOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 	
 			// Adjust height to make sure mesh touches the ground
 			const FVector MeshOffset = AIPrey->GetMesh()->Bounds.BoxExtent;
-			FVector TargetLocation = RandomLocation.Location;
+			TargetLocation = RandomLocation.Location;
 			TargetLocation.Z += MeshOffset.Z;
 
 			AIController->MoveToLocation(TargetLocation);
-			return EBTNodeResult::Succeeded;
+			return EBTNodeResult::InProgress;
 		}
 		else
 		{
@@ -71,3 +66,24 @@ EBTNodeResult::Type UBTTask_MoveOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 	}
 	return EBTNodeResult::Failed;
 }
+
+
+
+void UBTTask_MoveOnNavMesh::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+{
+	AAIController* AIController = OwnerComp.GetAIOwner();
+
+	if (IsValid(AIController))
+	{
+		float Distance = FVector::Dist(AIController->GetPawn()->GetActorLocation(), TargetLocation);
+		if (Distance < 100.f)  // Tolerance
+		{
+			FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+		} 
+	}
+	else
+	{
+		FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+	}
+}
+

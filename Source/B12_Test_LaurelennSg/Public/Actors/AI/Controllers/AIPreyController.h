@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Enums.h"
 #include "AIPreyController.generated.h"
 
 /**
@@ -32,6 +33,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "#Setup|Blackboard")
 	FName Key_PlayerActor = "PlayerActor";
 
+	UPROPERTY(EditDefaultsOnly, Category = "#Setup|Blackboard")
+	FName Key_AIActive = "IsActive";
 #pragma endregion
 
 #pragma region ----- FUNCTIONS -----
@@ -58,5 +61,11 @@ public:
 
 	UFUNCTION()
 	void SetPlayerActor(AActor* PlayerActor);
+
+	UFUNCTION()
+	void SetAIActive(bool bActive);
+
+	UFUNCTION()
+	void OnGameStateChange(ECaptureGameState GameState);
 #pragma endregion
 };

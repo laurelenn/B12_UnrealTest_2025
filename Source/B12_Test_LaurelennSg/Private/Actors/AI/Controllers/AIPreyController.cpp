@@ -7,6 +7,8 @@
 #include "Actors/AI/AIPreyBase.h"
 #include <Kismet/GameplayStatics.h>
 #include "ActorComponents/HoldableComponent.h"
+#include "Managers/CaptureGameManager.h"
+#include "ToolboxBPFL.h"
 
 AAIPreyController::AAIPreyController()
 {
@@ -16,6 +18,17 @@ AAIPreyController::AAIPreyController()
 void AAIPreyController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UCaptureGameManager* GameManager = UToolboxBPFL::GetGameManager();
+	if (GameManager)
+	{
+		GameManager->OnGameStateChange.AddDynamic(this, &AAIPreyController::OnGameStateChange);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("AAIPreyController::BeginPlay : No Game Manager found !!"));
+	}
+
 
 	if (BehaviorTreeAsset)
 	{
@@ -91,4 +104,33 @@ void AAIPreyController::SetPlayerActor(AActor* PlayerActor)
 	{
 		BlackboardComp->SetValueAsObject(Key_PlayerActor, PlayerActor);
 	}
+}
+
+void AAIPreyController::SetAIActive(bool bActive)
+{
+	if (BlackboardComp)
+	{
+		BlackboardComp->SetValueAsBool(Key_AIActive, bActive);
+	}
+}
+
+void AAIPreyController::OnGameStateChange(ECaptureGameState GameState)
+{
+	switch (GameState)
+	{
+		case ECaptureGameState::Playing : 
+			if (BlackboardComp && BlackboardComp->GetValueAsObject(Key_PlayerActor) == NULL)
+			{
+				AActor* Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0); // Assign player "target"
+				SetPlayerActor(Player);
+			}
+			SetAIActive(true);
+			break;
+
+		default:
+			SetAIActive(false);
+			break;
+	}
+
+
 }
