@@ -33,6 +33,24 @@ void AAIEnemyController::BeginPlay()
 		UE_LOG(LogTemp, Log, TEXT("AAIEnemyController::BeginPlay : No Game Manager found !!"));
 	}
 	AIEnemyPawn = Cast<AAIEnemyBase>(GetOwner());
+
+	if (BehaviorTreeAsset)
+	{
+		if (BehaviorTreeAsset->BlackboardAsset)
+		{
+			UseBlackboard(BehaviorTreeAsset->BlackboardAsset, BlackboardComp);
+			RunBehaviorTree(BehaviorTreeAsset);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("AAIEnemyController::BeginPlay : BlackboardAsset is not set!"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("AAIEnemyController::BeginPlay : BehaviorTreeAsset is set not set !"));
+
+	}
 }
 
 void AAIEnemyController::OnPossess(APawn* InPawn)
@@ -42,7 +60,7 @@ void AAIEnemyController::OnPossess(APawn* InPawn)
 	AActor* Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0); // Assign player "target"
 	SetPlayerActor(Player);
 
-	SetAIEnemyState(EAIEnemyState::Idle); // Could be latent with a delay activation too
+	//SetAIEnemyState(EAIEnemyState::Idle); // Could be latent with a delay activation too
 }
 
 void AAIEnemyController::SetAIEnemyState(EAIEnemyState NewState)

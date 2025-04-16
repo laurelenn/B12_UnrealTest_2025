@@ -5,6 +5,7 @@
 
 UBTTask_FollowPlayer::UBTTask_FollowPlayer()
 {
+	bNotifyTick = true;
 }
 
 EBTNodeResult::Type UBTTask_FollowPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)

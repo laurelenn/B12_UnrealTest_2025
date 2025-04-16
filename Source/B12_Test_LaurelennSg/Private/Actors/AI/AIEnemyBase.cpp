@@ -3,6 +3,7 @@
 
 #include "Actors/AI/AIEnemyBase.h"
 #include "ActorComponents/ProjectileBalLauncher.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "ToolboxBPFL.h"
 
 // Sets default values
