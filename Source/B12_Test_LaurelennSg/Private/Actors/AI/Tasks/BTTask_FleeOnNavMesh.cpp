@@ -13,11 +13,12 @@
 UBTTask_FleeOnNavMesh::UBTTask_FleeOnNavMesh()
 {
 	NodeName = TEXT("Flee");
+	bNotifyTick = true;
+
 }
 
 EBTNodeResult::Type UBTTask_FleeOnNavMesh::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
 	AAIPreyController* Controller = Cast<AAIPreyController>(OwnerComp.GetAIOwner());
 	AActor* Player = Cast<AActor>(Blackboard->GetValueAsObject(Controller->Key_PlayerActor));
@@ -28,6 +29,8 @@ EBTNodeResult::Type UBTTask_FleeOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 
 	if (!Controller || !World || !NavSystem || !AIPrey || !Blackboard)
 	{
+		UE_LOG(LogTemp, Error, TEXT("UBTTask_FleeOnNavMesh::ExecuteTask : Something is invalid !"));
+
 		return EBTNodeResult::Failed;
 	}
 
@@ -40,7 +43,7 @@ EBTNodeResult::Type UBTTask_FleeOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 		const FVector FleeTargetLocation = PreyLocation + FleeDirection * FleeDistanceSelection; // need to know to have the good direction
 		
 		FNavLocation RandomLocation;
-		const bool bFound = NavSystem->GetRandomPointInNavigableRadius(FleeTargetLocation, 100.f, RandomLocation); // Need to know the direction
+		const bool bFound = NavSystem->GetRandomPointInNavigableRadius(FleeTargetLocation, 50.f, RandomLocation); // Need to know the direction
 		
 		if (bFound)
 		{
@@ -49,7 +52,7 @@ EBTNodeResult::Type UBTTask_FleeOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 
 			// Adjust height to make sure mesh touches the ground
 			const FVector MeshOffset = AIPrey->GetMesh()->Bounds.BoxExtent;
-			FVector TargetLocation = RandomLocation.Location;
+			TargetLocation = RandomLocation.Location;
 			TargetLocation.Z += MeshOffset.Z;
 
 			Controller->MoveToLocation(TargetLocation);
@@ -58,3 +61,22 @@ EBTNodeResult::Type UBTTask_FleeOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 	}
 	return EBTNodeResult::Failed;
 }
+
+
+//void UBTTask_FleeOnNavMesh::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+//{
+//	AAIController* AIController = OwnerComp.GetAIOwner();
+//
+//	if (IsValid(AIController))
+//	{
+//		float Distance = FVector::Dist(AIController->GetPawn()->GetActorLocation(), TargetLocation);
+//		if (Distance < 20.f)  // Tolerance
+//		{
+//			FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+//		}
+//	}
+//	else
+//	{
+//		FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+//	}
+//}

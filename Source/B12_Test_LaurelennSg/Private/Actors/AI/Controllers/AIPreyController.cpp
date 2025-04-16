@@ -23,6 +23,10 @@ void AAIPreyController::BeginPlay()
 	if (GameManager)
 	{
 		GameManager->OnGameStateChange.AddDynamic(this, &AAIPreyController::OnGameStateChange);
+		if (GameManager->GetGameState() == ECaptureGameState::Playing)
+		{
+			SetAIActive(true);
+		}
 	}
 	else
 	{
@@ -39,16 +43,23 @@ void AAIPreyController::BeginPlay()
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("AIPreyController::OnPossess : BlackboardAsset is not set!"));
-
+			UE_LOG(LogTemp, Error, TEXT("AIPreyController::BeginPlay : BlackboardAsset is not set!"));
 		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("AIPreyController::OnPossess : BehaviorTreeAsset is set not set !"));
+		UE_LOG(LogTemp, Error, TEXT("AIPreyController::BeginPlay : BehaviorTreeAsset is set not set !"));
 
 	}
 
+	AAIPreyBase* AIPrey = Cast<AAIPreyBase>(GetOwner());
+	if (AIPrey)
+	{
+		AIPrey->OnCaptured.AddDynamic(this, &AAIPreyController::HandleAIPawnCaptured);
+		AIPrey->GetHoldComp()->OnHeld.AddDynamic(this, &AAIPreyController::HandleAIPawnHeld);
+		UE_LOG(LogTemp, Log, TEXT("AIPreyController::BeginPlay : Subscribed to capture and held events !"));
+
+	}
 }
 
 void AAIPreyController::HandleAIPawnCaptured(AAIPreyBase* AIPrey)

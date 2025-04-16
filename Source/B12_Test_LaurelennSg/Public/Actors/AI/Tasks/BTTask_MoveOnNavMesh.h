@@ -24,5 +24,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "#Setup")
 	float WalkDistanceSelection = 500.f;
 
+	UPROPERTY(Category = "Runtime", VisibleAnywhere)
 	FVector TargetLocation = FVector::ZeroVector;
 };

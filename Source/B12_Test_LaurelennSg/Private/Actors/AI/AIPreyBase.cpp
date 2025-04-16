@@ -28,6 +28,11 @@ void AAIPreyBase::BeginPlay()
 	Super::BeginPlay();
 	UCaptureGameManager* GameManager = UToolboxBPFL::GetGameManager();
 
+	if (HoldableComponent)
+	{
+		HoldableComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetNotIncludingScale); // Security in case of bad initialization
+	}
+
 	AArenaManager* ArenaManager = GameManager ? GameManager->GetArenaManager() : nullptr;
 
 	if (ArenaManager)
