@@ -27,7 +27,9 @@ void AAIPreyBase::BeginPlay()
 {
 	Super::BeginPlay();
 	UCaptureGameManager* GameManager = UToolboxBPFL::GetGameManager();
+
 	AArenaManager* ArenaManager = GameManager ? GameManager->GetArenaManager() : nullptr;
+
 	if (ArenaManager)
 	{
 		ArenaManager->RegisterAIPrey(this);
