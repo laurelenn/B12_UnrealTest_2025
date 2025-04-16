@@ -83,10 +83,10 @@ void UCaptureGameManager::CheckIfReadyForStart()
 {
     UE_LOG(LogTemp, Log, TEXT("UCaptureGameManager::CheckIfReadyForStart : Checking Ready For Start..."));
 
-    bool bAllLevelsAreLoaded = (GDLevelsLoaded.Num() == DataAsset->GDLevelsToLoad.Num()) && ArtLevelsLoaded.Num() == DataAsset->ArtLevelsToLoad.Num();
-	bool bArenaRegistered = IsValid(ArenaManager);
-    bool bUiRegistered = IsValid(GameUI);
-    bool bDataAssetRegistered = IsValid(DataAsset);
+    const bool bAllLevelsAreLoaded = (GDLevelsLoaded.Num() == DataAsset->GDLevelsToLoad.Num()) && ArtLevelsLoaded.Num() == DataAsset->ArtLevelsToLoad.Num();
+    const bool bArenaRegistered = IsValid(ArenaManager);
+    const bool bUiRegistered = IsValid(GameUI);
+    const bool bDataAssetRegistered = IsValid(DataAsset);
 
     if (bIsPlayerRegistered 
     && bIsCaptureZoneRegistered 
@@ -118,7 +118,7 @@ void UCaptureGameManager::LoadMapLevels()
     // Load GameDesign levels
     for (const TSoftObjectPtr<UWorld>& LevelAsset : DataAsset->GDLevelsToLoad)
     {
-       FString  LevelName = *LevelAsset.ToSoftObjectPath().GetLongPackageName();
+      const FString LevelName = *LevelAsset.ToSoftObjectPath().GetLongPackageName();
 
         bool IsSuccess;
         ULevelStreaming* LevelLoaded = ULevelStreamingDynamic::LoadLevelInstanceBySoftObjectPtr(GetWorld(), LevelAsset, FVector::ZeroVector, FRotator::ZeroRotator, IsSuccess);
@@ -137,7 +137,7 @@ void UCaptureGameManager::LoadMapLevels()
     // Load Art levels
     for (const TSoftObjectPtr<UWorld>& LevelAsset : DataAsset->ArtLevelsToLoad)
     {
-        FString  LevelName = *LevelAsset.ToSoftObjectPath().GetLongPackageName();
+       const FString LevelName = *LevelAsset.ToSoftObjectPath().GetLongPackageName();
 
         bool IsSuccess;
         ULevelStreaming* LevelLoaded = ULevelStreamingDynamic::LoadLevelInstanceBySoftObjectPtr(GetWorld(), LevelAsset, FVector::ZeroVector, FRotator::ZeroRotator, IsSuccess);
