@@ -50,7 +50,7 @@ void AAIPreyBase::Captured()
 		HoldableComponent->bIsEnabled = false;
 		HoldableComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
-
+	OnCaptured.Broadcast(this);
 }
 
 int AAIPreyBase::GetScore()

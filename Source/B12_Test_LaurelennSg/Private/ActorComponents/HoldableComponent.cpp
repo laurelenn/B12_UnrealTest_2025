@@ -22,7 +22,10 @@ void UHoldableComponent::ActivateInteraction()
 
 	if (OverlappingPlayer)
 	{
-		OverlappingPlayer->TryHoldActor(this);
+		if (OverlappingPlayer->TryHoldActor(this))
+		{
+			OnHeld.Broadcast(this, true);
+		}
 	}
 }
 
@@ -32,7 +35,10 @@ void UHoldableComponent::DeactivateInteraction()
 
 	if (OverlappingPlayer)
 	{
-		OverlappingPlayer->TryDropActorHeld(this);
+		if (OverlappingPlayer->TryDropActorHeld(this))
+		{
+			OnHeld.Broadcast(this, false);
+		}
 	}
 }
 

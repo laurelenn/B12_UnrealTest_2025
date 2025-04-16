@@ -224,7 +224,7 @@ bool AB12_Test_LaurelennSgCharacter::TryDropActorHeld(UHoldableComponent* CompTo
 			if (MeshComp) // To make the mesh actor drop on floor, ignore the collisions
 			{
 				float MeshOffsetZ = MeshComp->Bounds.BoxExtent.Z;
-				DropLocation.Z -= MeshOffsetZ;
+				DropLocation.Z += MeshOffsetZ;
 			}
 			HeldActor->SetActorLocation(DropLocation);
 		}
