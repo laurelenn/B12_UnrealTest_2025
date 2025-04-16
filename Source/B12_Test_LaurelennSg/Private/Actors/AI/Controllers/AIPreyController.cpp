@@ -33,7 +33,6 @@ void AAIPreyController::BeginPlay()
 		UE_LOG(LogTemp, Log, TEXT("AAIPreyController::BeginPlay : No Game Manager found !!"));
 	}
 
-
 	if (BehaviorTreeAsset)
 	{
 		if (BehaviorTreeAsset->BlackboardAsset)
@@ -52,14 +51,6 @@ void AAIPreyController::BeginPlay()
 
 	}
 
-	AAIPreyBase* AIPrey = Cast<AAIPreyBase>(GetOwner());
-	if (AIPrey)
-	{
-		AIPrey->OnCaptured.AddDynamic(this, &AAIPreyController::HandleAIPawnCaptured);
-		AIPrey->GetHoldComp()->OnHeld.AddDynamic(this, &AAIPreyController::HandleAIPawnHeld);
-		UE_LOG(LogTemp, Log, TEXT("AIPreyController::BeginPlay : Subscribed to capture and held events !"));
-
-	}
 }
 
 void AAIPreyController::HandleAIPawnCaptured(AAIPreyBase* AIPrey)
@@ -94,6 +85,8 @@ void AAIPreyController::OnPossess(APawn* InPawn)
 	{
 		AIPreyPawn->OnCaptured.AddDynamic(this, &AAIPreyController::HandleAIPawnCaptured);
 		AIPreyPawn->GetHoldComp()->OnHeld.AddDynamic(this, &AAIPreyController::HandleAIPawnHeld);
+		UE_LOG(LogTemp, Log, TEXT("AIPreyController::OnPossess : Subscribed to capture and held events !"));
+
 	}
 	else
 	{

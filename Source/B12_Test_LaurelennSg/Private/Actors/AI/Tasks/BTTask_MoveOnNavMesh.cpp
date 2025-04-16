@@ -76,7 +76,7 @@ void UBTTask_MoveOnNavMesh::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* N
 	if (IsValid(AIController))
 	{
 		float Distance = FVector::Dist(AIController->GetPawn()->GetActorLocation(), TargetLocation);
-		if (Distance < 100.f)  // Tolerance
+		if (Distance < 200.f)  // Tolerance
 		{
 			FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 		} 
