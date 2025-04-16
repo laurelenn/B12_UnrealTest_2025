@@ -5,6 +5,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Actors/AI/AIPreyBase.h"
+#include <Kismet/GameplayStatics.h>
 
 AAIPreyController::AAIPreyController()
 {

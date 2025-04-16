@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "Enums.h"
 #include "AIBase.generated.h"
 
@@ -13,7 +13,7 @@ class UArrowComponent;
 
 // Just a base for All AI
 UCLASS(Abstract)
-class B12_TEST_LAURELENNSG_API AAIBase : public APawn
+class B12_TEST_LAURELENNSG_API AAIBase : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -23,16 +23,7 @@ class B12_TEST_LAURELENNSG_API AAIBase : public APawn
 protected : 
 
 	UPROPERTY(Category = "Components", EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UCapsuleComponent* CapsuleComponent;
-
-	UPROPERTY(Category = "Components", EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	ULifeComponent* LifeComponent;
-
-	UPROPERTY(Category = "Components", EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true")) // Note : Should be a skeletal mesh in a final version
-	UStaticMeshComponent* MeshComponent;
-
-	UPROPERTY(Category = "Components", EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UArrowComponent* ArrowComponent;
 
 	UPROPERTY(Category = Runtime , VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
 	bool bIsActive = false;

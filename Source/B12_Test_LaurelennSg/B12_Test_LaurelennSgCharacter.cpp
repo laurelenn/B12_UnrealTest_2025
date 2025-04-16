@@ -192,7 +192,7 @@ bool AB12_Test_LaurelennSgCharacter::TryHoldActor(UHoldableComponent* CompToHold
 	return false;
 }
 
-bool AB12_Test_LaurelennSgCharacter::TryDropActorHold(UHoldableComponent* CompToHold)
+bool AB12_Test_LaurelennSgCharacter::TryDropActorHeld(UHoldableComponent* CompToHold)
 {
 	// Check if there is an actor Hold and if it's not the CompToHold's Owner
 	if (HeldComponent && HeldComponent == CompToHold)
@@ -219,9 +219,14 @@ bool AB12_Test_LaurelennSgCharacter::TryDropActorHold(UHoldableComponent* CompTo
 
 		if (bHit)
 		{
-			// NOTE: Cheat because we don't have skeletal mesh too make it clean !
-
-			HeldActor->SetActorLocation(FVector(HitResult.Location.X, HitResult.Location.Y, HitResult.Location.Z+20.f));
+			FVector DropLocation = HitResult.Location;
+			UPrimitiveComponent* MeshComp = HeldActor->FindComponentByClass<UPrimitiveComponent>();
+			if (MeshComp) // To make the mesh actor drop on floor, ignore the collisions
+			{
+				float MeshOffsetZ = MeshComp->Bounds.BoxExtent.Z;
+				DropLocation.Z += MeshOffsetZ;
+			}
+			HeldActor->SetActorLocation(DropLocation);
 		}
 		else
 		{

@@ -6,12 +6,20 @@
 #include "BehaviorTree/BTTaskNode.h"
 #include "BTTask_MoveOnNavMesh.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class B12_TEST_LAURELENNSG_API UBTTask_MoveOnNavMesh : public UBTTaskNode
 {
 	GENERATED_BODY()
-	
+
+public:
+	UBTTask_MoveOnNavMesh();
+
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
+protected:
+
+	/**A distance the AI can walk to*/
+	UPROPERTY(EditAnywhere, Category = "#Setup")
+	float WalkDistanceSelection = 500.f;
 };

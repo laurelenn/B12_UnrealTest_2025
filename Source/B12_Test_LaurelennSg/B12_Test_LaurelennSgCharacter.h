@@ -128,7 +128,7 @@ public:
 	bool TryHoldActor(UHoldableComponent* CompToHold);
 
 	UFUNCTION(BlueprintCallable)
-	bool TryDropActorHold(UHoldableComponent* CompToHold);
+	bool TryDropActorHeld(UHoldableComponent* CompToHold);
 
 	/**Function call with the Interact Input Action*/
 	UFUNCTION(BlueprintCallable)

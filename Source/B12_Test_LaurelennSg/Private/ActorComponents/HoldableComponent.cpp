@@ -32,7 +32,7 @@ void UHoldableComponent::DeactivateInteraction()
 
 	if (OverlappingPlayer)
 	{
-		OverlappingPlayer->TryDropActorHold(this);
+		OverlappingPlayer->TryDropActorHeld(this);
 	}
 }
 

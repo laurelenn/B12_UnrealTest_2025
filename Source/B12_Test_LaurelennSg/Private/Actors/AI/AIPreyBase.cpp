@@ -17,7 +17,7 @@ AAIPreyBase::AAIPreyBase()
 	HoldableComponent = CreateDefaultSubobject<UHoldableComponent>(TEXT("HoldableComponent"));
 	if (HoldableComponent)
 	{
-		HoldableComponent->SetupAttachment(CapsuleComponent);
+		HoldableComponent->SetupAttachment(RootComponent);
 	}
 
 }

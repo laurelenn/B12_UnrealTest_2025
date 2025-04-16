@@ -9,6 +9,8 @@
 /**
  * 
  */
+ class HoldableComponent;
+
 UCLASS()
 class B12_TEST_LAURELENNSG_API AAIPreyController : public AAIController
 {
@@ -16,7 +18,7 @@ class B12_TEST_LAURELENNSG_API AAIPreyController : public AAIController
 	
 #pragma region ----- VARIABLES -----	
 
-protected:
+public:
 	UPROPERTY(EditDefaultsOnly, Category = "#Setup")
 	UBehaviorTree* BehaviorTreeAsset;
 
