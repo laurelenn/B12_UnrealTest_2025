@@ -61,22 +61,3 @@ EBTNodeResult::Type UBTTask_FleeOnNavMesh::ExecuteTask(UBehaviorTreeComponent& O
 	}
 	return EBTNodeResult::Failed;
 }
-
-
-//void UBTTask_FleeOnNavMesh::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
-//{
-//	AAIController* AIController = OwnerComp.GetAIOwner();
-//
-//	if (IsValid(AIController))
-//	{
-//		float Distance = FVector::Dist(AIController->GetPawn()->GetActorLocation(), TargetLocation);
-//		if (Distance < 20.f)  // Tolerance
-//		{
-//			FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-//		}
-//	}
-//	else
-//	{
-//		FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
-//	}
-//}

@@ -50,7 +50,6 @@ void AAIPreyController::BeginPlay()
 		UE_LOG(LogTemp, Error, TEXT("AIPreyController::BeginPlay : BehaviorTreeAsset is set not set !"));
 
 	}
-
 }
 
 void AAIPreyController::HandleAIPawnCaptured(AAIPreyBase* AIPrey)
@@ -64,9 +63,9 @@ void AAIPreyController::HandleAIPawnHeld(UHoldableComponent* HeldComponent, bool
 	{
 		SetAIPreyState(EAIPreyState::Held);
 	}
-	else
+	else if (BlackboardComp && BlackboardComp->GetValueAsEnum(Key_AIPreyState) != static_cast<uint8>(EAIPreyState::Captured)) // If captured don't make it idle again !
 	{
-		SetAIPreyState(EAIPreyState::Chilling);
+		SetAIPreyState(EAIPreyState::Idle);
 	}
 }
 
@@ -77,7 +76,7 @@ void AAIPreyController::OnPossess(APawn* InPawn)
 	AActor* Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0); // Assign player "target"
 	SetPlayerActor(Player);
 
-	SetAIPreyState(EAIPreyState::Chilling); // Could be latent with a delay activation too
+	SetAIPreyState(EAIPreyState::Idle); // Could be latent with a delay activation too
 
 	// Bind to events
 	AAIPreyBase* AIPreyPawn = Cast<AAIPreyBase>(InPawn);
@@ -135,6 +134,4 @@ void AAIPreyController::OnGameStateChange(ECaptureGameState GameState)
 			SetAIActive(false);
 			break;
 	}
-
-
 }

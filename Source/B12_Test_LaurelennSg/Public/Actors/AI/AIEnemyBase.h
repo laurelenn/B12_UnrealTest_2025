@@ -6,12 +6,25 @@
 #include "AIBase.h"
 #include "AIEnemyBase.generated.h"
 
+class UProjectileBalLauncher;
+class UAIEnemyDataAsset;
+
 UCLASS(Blueprintable)
 class B12_TEST_LAURELENNSG_API AAIEnemyBase : public AAIBase
 {
 	GENERATED_BODY()
 
 #pragma region ----- VARIABLES -----
+
+protected:
+
+	UPROPERTY(Category = "Components", EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UProjectileBalLauncher* ProjectileLauncherComp;
+
+public:
+
+	UPROPERTY(Category = "#Setup", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UAIEnemyDataAsset* DataAsset;
 
 #pragma endregion
 
@@ -27,12 +40,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	UFUNCTION(Category = "API", BlueprintCallable)
+	UProjectileBalLauncher* GetProjectileLauncherComp() { return ProjectileLauncherComp; }
 
 	#pragma endregion
 };

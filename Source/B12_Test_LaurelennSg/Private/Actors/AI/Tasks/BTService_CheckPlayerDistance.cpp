@@ -12,6 +12,7 @@
 
 UBTService_CheckPlayerDistance::UBTService_CheckPlayerDistance()
 {
+	NodeName = TEXT("Check Player Too Close");
 }
 
 void UBTService_CheckPlayerDistance::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
@@ -23,7 +24,7 @@ void UBTService_CheckPlayerDistance::TickNode(UBehaviorTreeComponent& OwnerComp,
 
 	if (!Player || !AIPrey || !Controller || !Blackboard || !AIPrey->DataAsset)
 	{
-
+		UE_LOG(LogTemp, Error, TEXT(" UBTService_CheckPlayerDistance::TickNode : Something is invalid !"));
 		return;
 	}
 
@@ -34,12 +35,12 @@ void UBTService_CheckPlayerDistance::TickNode(UBehaviorTreeComponent& OwnerComp,
 	uint8 StateValue = Blackboard->GetValueAsEnum(Controller->Key_AIPreyState);
 	const EAIPreyState CurrentState = static_cast<EAIPreyState>(StateValue);
 
-	if (CurrentState == EAIPreyState::Chilling && Distance <= StartFleeDistance)
+	if (CurrentState == EAIPreyState::Idle && Distance <= StartFleeDistance)
 	{
-		Controller->SetAIPreyState(EAIPreyState::Flighting);
+		Controller->SetAIPreyState(EAIPreyState::Flee);
 	}
-	else if (CurrentState == EAIPreyState::Flighting && Distance > FleeSafeDistance)
+	else if (CurrentState == EAIPreyState::Flee && Distance > FleeSafeDistance)
 	{
-		Controller->SetAIPreyState(EAIPreyState::Chilling);
+		Controller->SetAIPreyState(EAIPreyState::Idle);
 	}
 }

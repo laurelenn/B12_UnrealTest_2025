@@ -2,33 +2,24 @@
 
 
 #include "Actors/AI/AIEnemyBase.h"
+#include "ActorComponents/ProjectileBalLauncher.h"
+#include "ToolboxBPFL.h"
 
 // Sets default values
 AAIEnemyBase::AAIEnemyBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	PrimaryActorTick.bCanEverTick = false;
+	ProjectileLauncherComp = CreateDefaultSubobject<UProjectileBalLauncher>(TEXT("ProjectileLauncherComp"));
+	if (ProjectileLauncherComp)
+	{
+		ProjectileLauncherComp->SetupAttachment(RootComponent);
+	}
 }
 
 // Called when the game starts or when spawned
 void AAIEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void AAIEnemyBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
-// Called to bind functionality to input
-void AAIEnemyBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 

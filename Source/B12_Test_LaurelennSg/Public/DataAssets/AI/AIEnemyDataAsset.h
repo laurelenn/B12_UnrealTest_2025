@@ -17,13 +17,13 @@ class B12_TEST_LAURELENNSG_API UAIEnemyDataAsset : public UDataAsset
 	public : 
 	/**Speed to follow player when he is detected*/
 	UPROPERTY(Category = "General", EditAnywhere, meta = (ClampMin = "0.5"))
-	float Speed = 10.f;
+	float Speed = 300.f;
 
 	/**Max Distance to detect and follow-shoot on player - Can't follow/hit the player if he's too far*/
 	UPROPERTY(Category = "General", EditAnywhere, meta = (ClampMin = "0.5"))
-	float MaxDistancePlayerDetect = 100.f;
-	
-	/**Min Distance from the player - Will move further if the player is too close*/
+	float MaxDistancePlayerDetect = 400.f;
+
+	/**The distance the AI will try to keep*/
 	UPROPERTY(Category = "General", EditAnywhere, meta = (ClampMin = "0.5"))
-	float MinDistancePlayer = 10.f;
+	float DistanceHuntPlayer = 200.f;
 };

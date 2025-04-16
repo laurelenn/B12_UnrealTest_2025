@@ -42,10 +42,17 @@ enum class EArenaEndCondition : uint8
 UENUM(BlueprintType)
 enum class EAIPreyState : uint8
 {
-	Latent,
-	Chilling,
-	Flighting,
+	Idle,
+	Flee,
 	Held,
 	Captured,
+	Dead
+};
+
+UENUM(BlueprintType)
+enum class EAIEnemyState : uint8
+{
+	Idle,
+	Hunting,
 	Dead
 };

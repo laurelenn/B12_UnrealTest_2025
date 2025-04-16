@@ -64,6 +64,9 @@ protected:
 
 	virtual void LaunchProjectile() override;
 
+public  :
+
+	UFUNCTION(Category = "API")
 	void SetEnabled(bool bIsEnabled);
 #pragma endregion
 

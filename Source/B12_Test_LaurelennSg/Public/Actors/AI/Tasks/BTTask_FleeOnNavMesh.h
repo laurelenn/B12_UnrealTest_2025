@@ -17,11 +17,8 @@ public :
 protected : 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
-	//virtual void TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
-
-
 	/**A distance the AI can flee to*/
-	UPROPERTY(EditAnywhere, Category = "#Setup")
+	UPROPERTY(EditAnywhere, Category = "#Setup") // NOTE - should be in DataAsset !
 	float FleeDistanceSelection = 20.f;
 
 	UPROPERTY(Category = "Runtime", VisibleAnywhere)
