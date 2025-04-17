@@ -5,6 +5,8 @@
 #include "AIController.h"
 #include "Actors/AI/AIEnemyBase.h"
 #include "DataAssets/AI/AIEnemyDataAsset.h"
+#include "Actors/AI/Controllers/AIEnemyController.h"
+
 
 UBTService_CheckPlayerHuntable::UBTService_CheckPlayerHuntable()
 {
@@ -24,13 +26,20 @@ void UBTService_CheckPlayerHuntable::TickNode(UBehaviorTreeComponent& OwnerComp,
 	}
 
 	const float DistanceToPlayer = FVector::Dist(Player->GetActorLocation(), AIEnemy->GetActorLocation());
+	uint8 currentState = Blackboard->GetValueAsEnum(Controller->Key_AIEnemyState);
 
 	if (DistanceToPlayer <= AIEnemy->DataAsset->MaxDistancePlayerDetect)
 	{
-		Blackboard->SetValueAsEnum(Controller->Key_AIEnemyState, static_cast<uint8>(EAIEnemyState::Hunting));
+		if (currentState != static_cast<uint8>(EAIEnemyState::Hunting)) // we will not notify changed every time
+		{
+			Controller->SetAIEnemyState(EAIEnemyState::Hunting);
+		}
 	}
 	else
 	{
-		Blackboard->SetValueAsEnum(Controller->Key_AIEnemyState, static_cast<uint8>(EAIEnemyState::Idle));
+		if (currentState != static_cast<uint8>(EAIEnemyState::Idle)) // we will not notify changed every time
+		{
+			Controller->SetAIEnemyState(EAIEnemyState::Idle);
+		}
 	}
 }

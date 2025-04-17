@@ -60,6 +60,8 @@ void AAIEnemyController::OnPossess(APawn* InPawn)
 	AActor* Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0); // Assign player "target"
 	SetPlayerActor(Player);
 
+	AIEnemyPawn = Cast<AAIEnemyBase>(InPawn);
+
 	//SetAIEnemyState(EAIEnemyState::Idle); // Could be latent with a delay activation too
 }
 
@@ -67,13 +69,13 @@ void AAIEnemyController::SetAIEnemyState(EAIEnemyState NewState)
 {
 	if (BlackboardComp)
 	{
+		UE_LOG(LogTemp, Log, TEXT("AAIEnemyController::SetAIEnemyState : Enemy State Set!"));
+
 		BlackboardComp->SetValueAsEnum(Key_AIEnemyState, static_cast<uint8>(NewState));
 		if (IsValid(AIEnemyPawn))
 		{
-			if (NewState == EAIEnemyState::Hunting && BlackboardComp->GetValueAsBool(Key_AIActive))
-			{
-				AIEnemyPawn->GetProjectileLauncherComp()->SetEnabled(true); // Activate if hunting and active
-			}
+			bool bIsAlreadyActive = BlackboardComp->GetValueAsBool(Key_AIActive);
+			AIEnemyPawn->GetProjectileLauncherComp()->SetEnabled(NewState == EAIEnemyState::Hunting && bIsAlreadyActive); // Activate if hunting and active
 		}
 	}
 }
@@ -95,7 +97,8 @@ void AAIEnemyController::SetAIActive(bool bActive)
 
 	if (IsValid(AIEnemyPawn))
 	{
-		AIEnemyPawn->GetProjectileLauncherComp()->SetEnabled(bActive && BlackboardComp->GetValueAsEnum(Key_AIEnemyState) != static_cast<uint8>(EAIEnemyState::Hunting));  // Activate if hunting and active
+		bool bisHunting = BlackboardComp->GetValueAsEnum(Key_AIEnemyState) == static_cast<uint8>(EAIEnemyState::Hunting);
+		AIEnemyPawn->GetProjectileLauncherComp()->SetEnabled(bActive && bisHunting);  // Activate if hunting and active
 	}
 }
 
@@ -103,17 +106,29 @@ void AAIEnemyController::OnGameStateChange(ECaptureGameState GameState)
 {
 	switch (GameState)
 	{
-	case ECaptureGameState::Playing:
-		if (BlackboardComp && BlackboardComp->GetValueAsObject(Key_PlayerActor) == NULL)
+		case ECaptureGameState::Playing:
 		{
-			AActor* Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0); // Assign player "target"
-			SetPlayerActor(Player);
+			UE_LOG(LogTemp, Log, TEXT("AAIEnemyController::OnGameStateChange : Game State Is Playing!"));
+			if (!IsValid(AIEnemyPawn))
+			{
+				AIEnemyPawn = Cast<AAIEnemyBase>(GetPawn());
+			}
+			if (BlackboardComp && BlackboardComp->GetValueAsObject(Key_PlayerActor) == NULL)
+			{
+				AActor* Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0); // Assign player "target"
+				SetPlayerActor(Player);
+			}
+			SetAIActive(true);
+			break;
 		}
-		SetAIActive(true);
-		break;
 
-	default:
-		SetAIActive(false);
-		break;
+		
+		default:
+		{
+			UE_LOG(LogTemp, Log, TEXT("AAIEnemyController::OnGameStateChange : Game State Is NOT playing!"));
+			SetAIActive(false);
+			break;
+		}
+			
 	}
 }

@@ -14,7 +14,7 @@ UProjectileLauncher::UProjectileLauncher()
 void UProjectileLauncher::BeginPlay()
 {
 	Super::BeginPlay();
-	SetActive(bActivateAtStart);
+	SetEnabled(bActivateAtStart);
 }
 
 void UProjectileLauncher::FirstLaunch()
@@ -28,6 +28,11 @@ void UProjectileLauncher::PrepareLaunch()
 
 void UProjectileLauncher::LaunchProjectile()
 {
+}
+
+void UProjectileLauncher::SetEnabled(bool bIsEnabled)
+{
+	bEnabled = bIsEnabled;
 }
 
 

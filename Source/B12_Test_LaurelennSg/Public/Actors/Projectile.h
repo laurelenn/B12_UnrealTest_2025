@@ -40,6 +40,9 @@ int Life = 1;
 UPROPERTY(Category = "#Setup", EditDefaultsOnly)
 float MaxReachableDistance = 10000.f;
 
+UPROPERTY(Category = "#Setup", EditDefaultsOnly)
+float Speed;
+
 /***/
 UPROPERTY(Category = "Components", VisibleAnywhere)
 ULifeComponent* LifeComponent;

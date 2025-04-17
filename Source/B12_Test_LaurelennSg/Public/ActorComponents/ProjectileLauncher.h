@@ -31,6 +31,9 @@ public:
 	UPROPERTY(Category = Runtime, BlueprintReadOnly)
 	bool bFirstHitLaunched = false;
 
+	UPROPERTY(Category = Runtime, VisibleAnywhere)
+	bool bEnabled = false;
+
 	FTimerHandle TimerFirstLaunch;
 #pragma endregion
 
@@ -55,6 +58,10 @@ protected:
 	UFUNCTION(BlueprintCallable, CallInEditor)
 	virtual void LaunchProjectile();
 
+public:
+
+	UFUNCTION(Category = "API")
+	virtual void SetEnabled(bool bIsEnabled);
 #pragma endregion
 
 };

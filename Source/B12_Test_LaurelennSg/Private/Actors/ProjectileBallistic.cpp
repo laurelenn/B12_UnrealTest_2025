@@ -3,7 +3,20 @@
 
 #include "Actors/ProjectileBallistic.h"
 #include "ActorComponents/LifeComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 #include "ToolboxBPFL.h"
+
+
+AProjectileBallistic::AProjectileBallistic()
+{
+	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement_Component"));
+	ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
+}
+
+void AProjectileBallistic::BeginPlay()
+{
+	ProjectileMovementComponent->SetVelocityInLocalSpace(Speed * FVector(1,0,0)); // FOr the moment not custom velocity
+}
 
 void AProjectileBallistic::Tick(float DeltaTime)
 {
@@ -13,6 +26,8 @@ void AProjectileBallistic::Tick(float DeltaTime)
 		DestroyProjectile();
 	}
 }
+
+
 
 void AProjectileBallistic::OnHitActor(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {

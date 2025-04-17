@@ -22,7 +22,10 @@ void UProjectileBalLauncher::BeginPlay()
 void UProjectileBalLauncher::FirstLaunch()
 {
 	Super::FirstLaunch();
+	UE_LOG(LogTemp, Log, TEXT("UProjectileBalLauncher::FirstLaunch : First Launch fired !"));
+
 	PrepareLaunch();
+
 }
 
 
@@ -96,10 +99,12 @@ void UProjectileBalLauncher::LaunchProjectile()
 
 void UProjectileBalLauncher::SetEnabled(bool bIsEnabled)
 {
-	bEnabled = bIsEnabled;
+	Super::SetEnabled(bIsEnabled);
 	if (bIsEnabled)
 	{
-		if (bFirstHitLaunched)
+		UE_LOG(LogTemp, Log, TEXT("UProjectileBalLauncher::SetEnabled : Projectile Launcher Enabled !"));
+
+		if (!bFirstHitLaunched)
 		{
 			GetWorld()->GetTimerManager().ClearTimer(TimerFirstLaunch);
 			GetWorld()->GetTimerManager().SetTimer(TimerFirstLaunch, this, &UProjectileBalLauncher::FirstLaunch, DelayFirstLaunch, false);
@@ -111,6 +116,8 @@ void UProjectileBalLauncher::SetEnabled(bool bIsEnabled)
 	}
 	else
 	{
+		UE_LOG(LogTemp, Log, TEXT("UProjectileBalLauncher::SetEnabled : Projectile Launcher Disabled !"));
+
 		GetWorld()->GetTimerManager().ClearTimer(TimerFirstLaunch);
 		GetWorld()->GetTimerManager().ClearTimer(TimerNextLaunch);
 	}

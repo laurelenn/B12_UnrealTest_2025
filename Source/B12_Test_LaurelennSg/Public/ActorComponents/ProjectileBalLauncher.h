@@ -40,8 +40,7 @@ class B12_TEST_LAURELENNSG_API UProjectileBalLauncher : public UProjectileLaunch
 	UPROPERTY(Category = Runtime, VisibleAnywhere)
 	int NbHitsLaunched = 0;
 
-	UPROPERTY(Category = Runtime, VisibleAnywhere)
-	bool bEnabled = false;
+
 
 	FTimerHandle TimerNextLaunch;
 #pragma endregion
@@ -64,10 +63,8 @@ protected:
 
 	virtual void LaunchProjectile() override;
 
-public  :
-
-	UFUNCTION(Category = "API")
-	void SetEnabled(bool bIsEnabled);
+public : 
+	virtual void SetEnabled(bool bIsEnabled) override;
 #pragma endregion
 
 };

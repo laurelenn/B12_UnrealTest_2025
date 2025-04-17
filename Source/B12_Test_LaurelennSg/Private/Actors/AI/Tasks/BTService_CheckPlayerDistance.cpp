@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Actors/AI/AIPreyBase.h"
 #include "DataAssets/AI/AIPreyDataAsset.h"
+#include "Actors/AI/Controllers/AIPreyController.h"
 
 UBTService_CheckPlayerDistance::UBTService_CheckPlayerDistance()
 {
