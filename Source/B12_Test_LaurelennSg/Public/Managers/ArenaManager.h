@@ -26,7 +26,7 @@ struct FWave
 	TMap<TSubclassOf<AActor>, int> ActorsToSpawn;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true", DisplayName = "End Wave Condition", EditCondition = "!bIsLastWave", EditConditionHides)) // Edit Conditoin ? 
-	EArenaWaveEndCondition EndWaveCondition = EArenaWaveEndCondition::TimerOnly;
+	EArenaWaveEndCondition EndWaveCondition;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", DisplayName = "DelayNextWave", EditCondition = "!bIsLastWave", EditConditionHides))
 	float DelayNextWave = 0.0f;

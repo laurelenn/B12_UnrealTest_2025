@@ -82,18 +82,17 @@ void AArenaManager::LaunchNextWave()
 		{
 			LaunchTimerNextWave();
 		}
+			if (IsLastWave())
+			{
+				GetWorldTimerManager().ClearTimer(TimerLastWaveCheckCondition);
+				GetWorldTimerManager().SetTimer(TimerLastWaveCheckCondition, this, &AArenaManager::VerifEndArenaCondition, 1.f, false); // Wait a bit before checking if last condition is done
+			}
+			else
+			{
+				GetWorldTimerManager().ClearTimer(TimerWaveCheckCondition);
+				GetWorldTimerManager().SetTimer(TimerWaveCheckCondition, this, &AArenaManager::VerifEndWaveCondition, 1.f, false); // Wait a bit before checking if last condition is done
+			}
 		
-		if (IsLastWave())
-		{
-			GetWorldTimerManager().ClearTimer(TimerLastWaveCheckCondition);
-			GetWorldTimerManager().SetTimer(TimerLastWaveCheckCondition, this, &AArenaManager::VerifEndArenaCondition, 1.f, false); // Wait a bit before checking if last condition is done
-		}
-		else
-		{
-
-			GetWorldTimerManager().ClearTimer(TimerWaveCheckCondition);
-			GetWorldTimerManager().SetTimer(TimerWaveCheckCondition, this, &AArenaManager::VerifEndWaveCondition, 1.f, false); // Wait a bit before checking if last condition is done
-		}
 	}
 	else
 	{
@@ -233,6 +232,12 @@ void AArenaManager::AIPreyCaptured(AAIPreyBase* AICaptured)
 		if (indexAIPrey != -1)
 		{
 			AIPreysLoaded.RemoveAt(indexAIPrey);
+		}
+
+		indexAIPrey = AIPreysLeftWave.Find(AICaptured);
+		if (indexAIPrey != -1)
+		{
+			AIPreysLeftWave.RemoveAt(indexAIPrey);
 		}
 
 		//Check conditions end
