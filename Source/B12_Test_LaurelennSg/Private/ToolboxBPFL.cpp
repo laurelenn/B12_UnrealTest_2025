@@ -27,3 +27,4 @@ UCaptureGameManager* UToolboxBPFL::GetGameManager()
 
     return nullptr;
 }
+

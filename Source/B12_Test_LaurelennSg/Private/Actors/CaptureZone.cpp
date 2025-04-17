@@ -72,7 +72,7 @@ bool ACaptureZone::IsDetectableActor(AAIPreyBase* ActorPrey)
 {
 	if (IsValid(ActorPrey))
 	{
-		if (PreysDetectable.Contains(ActorPrey->GetClass())) // Check if this actor is in detectable list
+		if (UToolboxBPFL::ContainsChildOf(PreysDetectable,ActorPrey->GetClass())) // Check if this actor is in detectable list
 		{
 			return true;
 		}

@@ -19,7 +19,7 @@ class B12_TEST_LAURELENNSG_API AProjectileBallistic : public AProjectile
 
 #pragma region ----- VARIABLES -----
 
-	UPROPERTY(Category = "Components", EditDefaultsOnly)
+	UPROPERTY(Category = "Components", VisibleAnywhere)
 	UProjectileMovementComponent* ProjectileMovementComponent;
 
 
@@ -32,6 +32,7 @@ class B12_TEST_LAURELENNSG_API AProjectileBallistic : public AProjectile
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void OnHitActor(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
+	virtual void DestroyProjectile() override;
 #pragma endregion
 
 	

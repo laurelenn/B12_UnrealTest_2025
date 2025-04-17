@@ -22,4 +22,20 @@ class B12_TEST_LAURELENNSG_API UToolboxBPFL : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "Toolbox")
 	static UCaptureGameManager* GetGameManager();
+
+
+
+
+	template<class T>
+	static bool ContainsChildOf(const TArray<TSubclassOf<T>>& TargetArray, const UClass* Class)
+	{
+		for (auto TargetClass : TargetArray)
+		{
+			if (Class->IsChildOf(TargetClass))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 };

@@ -58,7 +58,7 @@ bool AProjectile::IsDamageableActor(AActor* ActorHit)
 {
 	if (ActorHit)
 	{
-		if (DamageableActors.Contains(ActorHit->GetClass()))
+		if (UToolboxBPFL::ContainsChildOf(DamageableActors,ActorHit->GetClass()))
 		{
 			return true;
 		}

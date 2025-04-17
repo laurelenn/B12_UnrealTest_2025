@@ -11,11 +11,15 @@ AProjectileBallistic::AProjectileBallistic()
 {
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement_Component"));
 	ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
+	ProjectileMovementComponent->bAutoActivate = true;
 }
 
 void AProjectileBallistic::BeginPlay()
 {
-	ProjectileMovementComponent->SetVelocityInLocalSpace(Speed * FVector(1,0,0)); // FOr the moment not custom velocity
+	ProjectileMovementComponent->InitialSpeed = Speed;
+	ProjectileMovementComponent->MaxSpeed = Speed;
+	ProjectileMovementComponent->Velocity = Speed * GetActorForwardVector();
+	ProjectileMovementComponent->Activate();
 }
 
 void AProjectileBallistic::Tick(float DeltaTime)
@@ -55,4 +59,13 @@ void AProjectileBallistic::OnHitActor(UPrimitiveComponent* OverlappedComponent, 
 		}
 	}
 
+}
+
+
+void AProjectileBallistic::DestroyProjectile()
+{
+	SetActorEnableCollision(false);
+	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ZeroVector);
+	ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
+	Super::DestroyProjectile();
 }
