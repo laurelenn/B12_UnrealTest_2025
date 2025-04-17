@@ -4,7 +4,7 @@
 
 ### Intention :
 
-Pour réaliser ce test, je me suis projetée dans l’optique suivante : _**“si les GD me présentaient ce jeu, quelles features et outils je développerai pour leur faciliter la vie ?”**_
+Pour réaliser ce test, je me suis projetée dans l’optique suivante : _**“si les GD me présentaient ce jeu, quelles features et outils je développerais pour leur faciliter la vie ?”**_
 
 Je me suis donc **principalement concentrée sur les outils et l’architecture générale, bien que simplifiée**, pour donner une idée de mes habitudes de travail et ma manière d’aborder la chose. Bien sûr, il est toujours possible de pousser et optimiser les outils en fonction du contexte !
 
