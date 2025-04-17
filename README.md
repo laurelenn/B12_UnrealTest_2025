@@ -38,7 +38,7 @@ Un peu plus de 28h (~ 4j de travail)
 
 #### Logique :
 
-Singleton qui gère le jeu en général (game state, load des maps, events…), est un subsystem auquel chaque acteur/objet peuvent s’abonner.
+Singleton qui gère le jeu en général (game state, load des maps, events…), est un subsystem auquel chaque acteur/objet peuvent s’abonner. Load les maps GD et Arts donnés en paramètres dans la DA (présente dans le GameMode) afin que les GD puissent facilement tester des LD différents.
 
 #### Approfondissement possibles :
 
