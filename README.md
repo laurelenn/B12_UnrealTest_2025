@@ -10,7 +10,7 @@ Je me suis donc **principalement concentrée sur les outils et l’architecture 
 
 ### Temps de travail :
 
-Un peu plus de 28h (~ 4j de travail)
+Un peu plus de 29h (~ 4j de travail)
 
 ‌
 
