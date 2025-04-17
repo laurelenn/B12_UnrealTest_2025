@@ -10,6 +10,11 @@ UBTTask_FollowPlayer::UBTTask_FollowPlayer()
 
 EBTNodeResult::Type UBTTask_FollowPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	AAIEnemyBase* AIEnemy = Cast<AAIEnemyBase>((OwnerComp.GetAIOwner()->GetPawn()));
+
+	AIEnemy->GetCharacterMovement()->MaxWalkSpeed = AIEnemy->DataAsset->Speed;
+
+
 	return EBTNodeResult::InProgress; // Just start the task
 }
 
