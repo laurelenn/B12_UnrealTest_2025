@@ -11,6 +11,7 @@
  */
 
  class UProjectileMovementComponent;
+ class USphereComponent;
 
 UCLASS(Blueprintable)
 class B12_TEST_LAURELENNSG_API AProjectileBallistic : public AProjectile
@@ -22,6 +23,8 @@ class B12_TEST_LAURELENNSG_API AProjectileBallistic : public AProjectile
 	UPROPERTY(Category = "Components", VisibleAnywhere)
 	UProjectileMovementComponent* ProjectileMovementComponent;
 
+	UPROPERTY(Category = "Components", VisibleAnywhere)
+	USphereComponent* SphereComponent;
 
 #pragma endregion
 

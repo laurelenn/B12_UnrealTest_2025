@@ -4,22 +4,35 @@
 #include "Actors/ProjectileBallistic.h"
 #include "ActorComponents/LifeComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Components/SphereComponent.h"
 #include "ToolboxBPFL.h"
 
 
 AProjectileBallistic::AProjectileBallistic()
 {
-	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement_Component"));
+	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	RootComponent = SphereComponent;
+
+	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement_Component"));
+	ProjectileMovementComponent->SetUpdatedComponent(SphereComponent);
+
 	ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
-	ProjectileMovementComponent->bAutoActivate = true;
+	ProjectileMovementComponent->bRotationFollowsVelocity = true;
+	ProjectileMovementComponent->bShouldBounce = false;
+
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 void AProjectileBallistic::BeginPlay()
 {
+	Super::BeginPlay();
+
+	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectileBallistic::OnHitActor);
+
 	ProjectileMovementComponent->InitialSpeed = Speed;
 	ProjectileMovementComponent->MaxSpeed = Speed;
-	ProjectileMovementComponent->Velocity = Speed * GetActorForwardVector();
-	ProjectileMovementComponent->Activate();
+	ProjectileMovementComponent->Velocity = GetActorForwardVector() * Speed;
+	ProjectileMovementComponent->Activate(true);
 }
 
 void AProjectileBallistic::Tick(float DeltaTime)
