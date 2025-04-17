@@ -137,7 +137,7 @@ void AArenaManager::LoadActorsWave(int CurrentWaveIndex)
 		for (int i = 0; i < Count; i++)
 		{
 			FRotator SpawnRotator = FRotator::ZeroRotator;
-			FVector SpawnLocation = FVector::ZeroVector;
+			FVector SpawnLocation = GetActorLocation();
 
 			// Spawn deferred to be able to search a valid position on the nav and register the AIPrey if it's one
 			AActor* SpawnedActor = GetWorld()->SpawnActorDeferred<AActor>(
@@ -151,22 +151,22 @@ void AArenaManager::LoadActorsWave(int CurrentWaveIndex)
 
 			if (SpawnedActor)
 			{
-				// Check if it's an AAIPreyBase
-				AAIPreyBase* AIPrey = Cast<AAIPreyBase>(SpawnedActor);  //  A bit expensive
-				if (AIPrey)
+				// Check if it's a Pawn
+				APawn* AIPawn = Cast<APawn>(SpawnedActor);  //  A bit expensive
+				if (AIPawn)
 				{
 					// Found associated Navmesh
 					const UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
 					if (NavSys)
 					{
-						const FNavAgentProperties& AgentProps = AIPrey->GetNavAgentPropertiesRef();
+						const FNavAgentProperties& AgentProps = AIPawn->GetNavAgentPropertiesRef();
 						const ANavigationData* NavDataConst = NavSys->GetNavDataForProps(AgentProps);
 						ANavigationData* NavData = const_cast<ANavigationData*>(NavDataConst);
 
 						if (NavData)
 						{
 							const FVector Origin = NavData->GetActorLocation();
-							const float SearchRadius = 1000.f; // Could custom it
+							const float SearchRadius = 10000.f; // Could custom it
 
 							FNavLocation RandomNavLocation;
 							if (NavSys->GetRandomPointInNavigableRadius(Origin, SearchRadius, RandomNavLocation, NavData))

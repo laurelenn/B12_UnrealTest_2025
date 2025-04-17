@@ -2,6 +2,10 @@
 
 
 #include "Actors/AI/Tasks/BTTask_FollowPlayer.h"
+#include "Actors/AI/AIEnemyBase.h"
+#include "DataAssets/AI/AIEnemyDataAsset.h"
+#include "Actors/AI/Controllers/AIEnemyController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UBTTask_FollowPlayer::UBTTask_FollowPlayer()
 {
@@ -13,7 +17,7 @@ EBTNodeResult::Type UBTTask_FollowPlayer::ExecuteTask(UBehaviorTreeComponent& Ow
 	AAIEnemyBase* AIEnemy = Cast<AAIEnemyBase>((OwnerComp.GetAIOwner()->GetPawn()));
 
 	AIEnemy->GetCharacterMovement()->MaxWalkSpeed = AIEnemy->DataAsset->Speed;
-
+	AIEnemy->GetCharacterMovement()->bOrientRotationToMovement = !bFacePlayer;
 
 	return EBTNodeResult::InProgress; // Just start the task
 }
@@ -58,7 +62,6 @@ void UBTTask_FollowPlayer::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* No
 	if (bFacePlayer)
 	{
 		FVector ToPlayerLocation = Player->GetActorLocation() - AIEnemy->GetActorLocation();
-		//ToPlayerLocation.Z = 0.f;
 		FRotator LookAtRotation = ToPlayerLocation.Rotation();
 		AIEnemy->SetActorRotation(FMath::RInterpTo(AIEnemy->GetActorRotation(), LookAtRotation, DeltaSeconds, 5.f));
 	}

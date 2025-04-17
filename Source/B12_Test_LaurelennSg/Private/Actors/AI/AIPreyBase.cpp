@@ -31,12 +31,14 @@ void AAIPreyBase::BeginPlay()
 		HoldableComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetNotIncludingScale); // Security in case of bad initialization
 	}
 
-	AArenaManager* ArenaManager = GameManager ? GameManager->GetArenaManager() : nullptr;
+	AArenaManager* ArenaManager =GameManager->GetArenaManager();
 
 	if (ArenaManager)
 	{
 		ArenaManager->RegisterAIPrey(this);
 	}
+
+	OnGameStateChange(GameManager->GetGameState()); // Update with current game state
 }
 
 

@@ -23,7 +23,7 @@ class B12_TEST_LAURELENNSG_API AProjectileBallistic : public AProjectile
 	UPROPERTY(Category = "Components", VisibleAnywhere)
 	UProjectileMovementComponent* ProjectileMovementComponent;
 
-	UPROPERTY(Category = "Components", VisibleAnywhere)
+	UPROPERTY(Category = "Components", EditDefaultsOnly)
 	USphereComponent* SphereComponent;
 
 #pragma endregion

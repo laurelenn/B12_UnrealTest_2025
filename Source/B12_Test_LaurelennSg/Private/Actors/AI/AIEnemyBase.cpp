@@ -16,6 +16,7 @@ AAIEnemyBase::AAIEnemyBase()
 	{
 		ProjectileLauncherComp->SetupAttachment(RootComponent);
 	}
+
 }
 
 // Called when the game starts or when spawned

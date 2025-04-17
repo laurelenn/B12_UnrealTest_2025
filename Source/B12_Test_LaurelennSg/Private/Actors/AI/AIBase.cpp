@@ -14,6 +14,7 @@ AAIBase::AAIBase()
 	PrimaryActorTick.bCanEverTick = false;
 
 	LifeComponent = CreateDefaultSubobject<ULifeComponent>(TEXT("LifeComponent"));
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 void AAIBase::BeginPlay()
@@ -25,7 +26,6 @@ void AAIBase::BeginPlay()
 	{
 		GameManager->OnGameStateChange.AddDynamic(this, &AAIBase::OnGameStateChange);
 	}
-
 }
 
 void AAIBase::OnGameStateChange(ECaptureGameState GameState)
@@ -33,6 +33,10 @@ void AAIBase::OnGameStateChange(ECaptureGameState GameState)
 	if (GameState != ECaptureGameState::Playing)
 	{
 		SetIsActive(false);
+	}
+	else
+	{
+		SetIsActive(true);
 	}
 
 }
